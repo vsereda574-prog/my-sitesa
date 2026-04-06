@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>НМТ Історія України — Повна підготовка</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-blue: #0057B8;
+            --primary-yellow: #FFDD00;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --accent: #e63946;
+            --success: #06d6a0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--dark);
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            border-bottom: 3px solid var(--primary-yellow);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--primary-yellow));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .nav-tab {
+            padding: 10px 15px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .nav-tab:hover, .nav-tab.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 20px 40px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 40px 20px;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .progress-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-blue), #004494);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .test-container, .flashcard-section, .content-section {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+
+        .period-filter {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .period-btn {
+            padding: 10px 20px;
+            border: 2px solid var(--primary-blue);
+            background: white;
+            color: var(--primary-blue);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .period-btn.active {
+            background: var(--primary-blue);
+            color: white;
+        }
+
+        .question-card {
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            color: var(--primary-blue);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .options-list {
+            list-style: none;
+        }
+
+        .option {
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            background: var(--light);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: #e8e8e8;
+            transform: translateX(5px);
+        }
+
+        .option.selected {
+            border-color: var(--primary-blue);
+            background: #e3f2fd;
+        }
+
+        .option.correct {
+            border-color: var(--success);
+            background: #e8f5e9;
+        }
+
+        .option.wrong {
+            border-color: var(--accent);
+            background: #ffebee;
+        }
+
+        .explanation {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: #fff3cd;
+            border-radius: 10px;
+            border-left: 4px solid var(--primary-yellow);
+        }
+
+        .explanation.show {
+            display: block;
+        }
+
+        .test-controls {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--primary-blue);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: #004494;
+        }
+
+        .btn-secondary {
+            background: var(--light);
+            color: var(--dark);
+            border: 2px solid #ddd;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .flashcards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .flashcard {
+            height: 200px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .flashcard.flipped .flashcard-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            font-weight: 600;
+        }
+
+        .flashcard-front {
+            background: white;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        .flashcard-back {
+            background: var(--primary-blue);
+            color: white;
+            transform: rotateY(180deg);
+            font-size: 0.95rem;
+        }
+
+        .content-card {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary-blue);
+        }
+
+        .content-card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .content-card p {
+            color: #666;
+            line-height: 1.6;
+            margin: 5px 0;
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 10px rgba(0, 87, 184, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .nav-tab {
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+            .flashcards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon">🇺🇦</div>
+                <span>НМТ Історія</span>
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" onclick="switchSection('home')">Головна</button>
+                <button class="nav-tab" onclick="switchSection('test')">Тести</button>
+                <button class="nav-tab" onclick="switchSection('hetmans')">Гетьмани</button>
+                <button class="nav-tab" onclick="switchSection('treaties')">Угоди</button>
+                <button class="nav-tab" onclick="switchSection('parties')">Партії</button>
+                <button class="nav-tab" onclick="switchSection('flashcards')">Картки</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div id="home" class="section active">
+            <div class="hero">
+                <h1>📚 НМТ Історія України</h1>
+                <p>Повна підготовка: 60+ тестів, гетьмани, угоди, партії та 50+ карток</p>
+            </div>
+            <div class="progress-section">
+                <h2 style="color: var(--primary-blue); margin-bottom: 20px;">📊 Твій прогрес</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="testsCompleted">0</div>
+                        <div class="stat-label">Тестів пройдено</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="correctAnswers">0</div>
+                        <div class="stat-label">Правильних</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="bestScore">0%</div>
+                        <div class="stat-label">Кращий результат</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="test" class="section">
+            <div class="test-container">
+                <h2 style="color: var(--primary-blue); margin-bottom: 30px;">📝 Тестування</h2>
+                <div class="period-filter" id="periodFilter"></div>
+                <div id="testContent"></div>
+                <div class="test-controls">
+                    <button class="btn btn-secondary" onclick="prevQuestion()">← Попереднє</button>
+                    <span style="text-align: center; flex: 1; padding: 12px; font-weight: 600;" id="questionCounter"></span>
+                    <button class="btn btn-primary" onclick="nextQuestion()">Наступне →</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="hetmans" class="section">
+            <div class="content-section">
+                <h2 style="color: var(--primary-blue); margin-bottom: 30px;">⚔️ Козацькі гетьмани</h2>
+                <div class="search-box">
+                    <input type="text" id="hetmanSearch" placeholder="Пошук гетьманів..." onkeyup="filterHetmans()">
+                </div>
+                <div id="hetmansContent"></div>
+            </div>
+        </div>
+
+        <div id="treaties" class="section">
+            <div class="content-section">
+                <h2 style="color: var(--primary-blue); margin-bottom: 30px;">📜 Історичні угоди та Уніі</h2>
+                <div class="search-box">
+                    <input type="text" id="treatySearch" placeholder="Пошук угод..." onkeyup="filterTreaties()">
+                </div>
+                <div id="treatiesContent"></div>
+            </div>
+        </div>
+
+        <div id="parties" class="section">
+            <div class="content-section">
+                <h2 style="color: var(--primary-blue); margin-bottom: 30px;">🏛️ Політичні партії України</h2>
+                <div class="search-box">
+                    <input type="text" id="partySearch" placeholder="Пошук партій..." onkeyup="filterParties()">
+                </div>
+                <div id="partiesContent"></div>
+            </div>
+        </div>
+
+        <div id="flashcards" class="section">
+            <div class="flashcard-section">
+                <h2 style="color: var(--primary-blue); margin-bottom: 20px;">🎴 Картки запам'ятовування (50+)</h2>
+                <p style="color: #666; margin-bottom: 30px;">Клікай на картку, щоб перевернути. Вивчай ключові поняття!</p>
+                <div class="flashcards-grid" id="flashcardsGrid"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        // ============== ГЕТЬМАНИ ==============
+        const hetmans = [
+            { name: "Дмитро Вишневецький (Байда)", years: "1550–1563", period: "XVI ст.", achievements: "Засновник Запорозької Січі (1556), перший гетьман", death: "Розп'ятий за наказом султана" },
+            { name: "Петро Сагайдачний", years: "1591–1622", period: "XVI–XVII ст.", achievements: "Гетьман козаків реєстрових, борець за православ'я, похід на Константинопіль", death: "Помер від ран у бою" },
+            { name: "Богдан Хмельницький", years: "1595–1657", period: "XVII ст.", achievements: "Очільник Національно-визвольної війни 1648–1657, розгромив поляків", death: "Помер у Чигирині" },
+            { name: "Іван Богун", years: "1620–1664", period: "XVII ст.", achievements: "Сотник, полковник, славився відвагою та тактикою", death: "Полягнув у бою" },
+            { name: "Павло Тетеря", years: "1620–1670", period: "XVII ст.", achievements: "Гетьман 1659–1664, будував укріплення", death: "Полягнув у боротьбі" },
+            { name: "Юрій Хмельницький", years: "1641–1684", period: "XVII ст.", achievements: "Син Богдана, гетьман 1657–1665, боровся з російським впливом", death: "Помер в опальному стані" },
+            { name: "Іван Самойлович", years: "1633–1690", period: "XVII ст.", achievements: "Гетьман 1671–1687, очолював козаків в період Руїни", death: "Відсланий у Сибір" },
+            { name: "Іван Мазепа", years: "1639–1709", period: "XVII–XVIII ст.", achievements: "Найвідоміший гетьман 1687–1709, розбудовував Гетьманщину", death: "Помер у Бендерах у вигнанні" },
+            { name: "Іван Виговський", years: "1612–1664", period: "XVII ст.", achievements: "Гетьман 1657–1659, укладав угоди з поляками", death: "Розправлений противниками" },
+            { name: "Пилип Орлик", years: "1672–1742", period: "XVII–XVIII ст.", achievements: "Гетьман-в-екзилі, автор першої Конституції України 1710", death: "Помер в еміграції у Франції" },
+            { name: "Кирило Розумовський", years: "1728–1803", period: "XVIII ст.", achievements: "Останній гетьман Гетьманщини 1750–1764", death: "Помер у Москві" }
+        ];
+
+        // ============== УГОДИ (20+) ==============
+        const treaties = [
+            { name: "Кревська унія", year: 1385, parties: "Литва, Польща", description: "Об'єднання через шлюб Ягайла й Ядвіги", significance: "Початок союзу" },
+            { name: "Городельська унія", year: 1413, parties: "Литва, Польща", description: "Встановлення рівноправності шляхти", significance: "Поглиблення союзу" },
+            { name: "Люблінська унія", year: 1569, parties: "Польща, Литва, Україна", description: "Утворення Речі Посполитої", significance: "Приєднання України до Польщі" },
+            { name: "Переяславська рада", year: 1654, parties: "Україна, Московське царство", description: "Козацька присяга царю Олексію Михайловичу", significance: "Початок російського впливу" },
+            { name: "Андрусівське перемир'я", year: 1667, parties: "Росія, Річ Посполита", description: "Визнання російського панування на лівобережній Україні", significance: "Поділ України" },
+            { name: "Константинопольський договір", year: 1700, parties: "Росія, Туреччина", description: "Право морської торгівлі в Чорному морі", significance: "Російська експансія на південь" },
+            { name: "Перший розділ Польщі", year: 1772, parties: "Росія, Австрія, Пруссія", description: "Розділ території Польщі, західна Україна до Австрії", significance: "Початок поділу українських земель" },
+            { name: "Третій розділ Польщі", year: 1795, parties: "Росія, Австрія, Пруссія", description: "Остаточний розділ Польщі, кінець Гетьманщини", significance: "Завершення поділу України" },
+            { name: "Акт незалежності УНР", year: 1917, parties: "Центральна Рада України", description: "Проголошення незалежності України", significance: "Перша спроба創 незалежної держави" },
+            { name: "Брестський мир", year: 1918, parties: "УНР, Німеччина, Австро-Угорщина", description: "Мирна угода під час Першої світової війни", significance: "Признання УНР" },
+            { name: "Варшавський договір", year: 1920, parties: "УНР, Польща", description: "Союз проти Радянської Росії", significance: "Боротьба за незалежність" },
+            { name: "Ризька мирна угода", year: 1921, parties: "Радянська Росія, Польща", description: "Розподіл українських земель", significance: "Західна Україна до Польщі, східна до СРСР" },
+            { name: "Едмондський договір", year: 1938, parties: "Чехословаччина, Німеччина", description: "Поділ Чехословаччини, західна Україна до Угорщини", significance: "Передумова Другої світової" },
+            { name: "Пакт Молотова-Ріббентропа", year: 1939, parties: "СРСР, Нацистська Німеччина", description: "Таємний протокол про розподіл Східної Європи", significance: "Поділ західної України" },
+            { name: "Будапештськи�� меморандум", year: 1994, parties: "Україна, РФ, США, Британія", description: "Україна відмовилась від ядерної зброї, отримала гарантії", significance: "Безпека України порушена у 2014" },
+            { name: "Угода про асоціацію ЄС", year: 2014, parties: "Україна, Європейський Союз", description: "Глибока й комплексна угода про вільну торгівлю", significance: "Європейський вибір України" },
+            { name: "Угода про виключну економічну зону", year: 1997, parties: "Україна, РФ", description: "Розмежування морських кордонів в Азовському морі", significance: "Розраховує морські кордони" },
+            { name: "Гельсінський акт", year: 1975, parties: "Країни Європи, СРСР, США", description: "Гарантія дотримання прав людини", significance: "Основа для захисту прав" },
+            { name: "Угода про НАТО", year: 1995, parties: "Україна, НАТО", description: "Партнерство, не членство в альянсі", significance: "Наближення до західних структур" },
+            { name: "Угода про Євромайдан", year: 2013, parties: "Україна, ЄС", description: "Україна вирішила підписати угоду про асоціацію", significance: "Тригер Революції Гідності" }
+        ];
+
+        // ============== ПАРТІЇ (30+) ==============
+        const parties = [
+            { name: "Слуга народу", founded: 2018, leader: "Володимир Зеленський", ideology: "Прогресивізм, популізм", period: "2018–н.ч.", significance: "Перемога на виборах 2019" },
+            { name: "Батьківщина", founded: 1999, leader: "Юлія Тимошенко", ideology: "Центризм, популізм", period: "1999–н.ч.", significance: "Участь у Помаранчевій революції" },
+            { name: "ОПЗЖ", founded: 2019, leader: "Юрій Бойко", ideology: "Про-російське, популізм", period: "2019–2022", significance: "Найбільша опозиційна сила" },
+            { name: "Свобода", founded: 1991, leader: "Олег Тягнибок", ideology: "Український національний патріотизм", period: "1991–н.ч.", significance: "Найбільша національна партія" },
+            { name: "УДАР", founded: 2011, leader: "Віталій Кличко", ideology: "Центризм, реформи", period: "2011–2018", significance: "Участь у Революції Гідності" },
+            { name: "ПР (Партія регіонів)", founded: 1997, leader: "Віктор Янукович", ideology: "Про-російське, консерватизм", period: "1997–2014", significance: "Правила 2010–2014, викликала революцію" },
+            { name: "ВО Батьківщина", founded: 1999, leader: "Юлія Тимошенко", ideology: "Центристське, популізм", period: "1999–н.ч.", significance: "Одна з найстаріших партій" },
+            { name: "КПУ", founded: 1991, leader: "Петро Симоненко", ideology: "Комунізм, про-російське", period: "1991–2015", significance: "Залишок СРСР, заборонена 2015" },
+            { name: "СДПУ(о)", founded: 1990, leader: "Василь Марчук", ideology: "Соціал-демократія", period: "1990–2013", significance: "Соціал-демократичне крило" },
+            { name: "ОУН–М", founded: 1929, leader: "традиційне керівництво", ideology: "Український національний патріотизм", period: "1929–н.ч.", significance: "Історична організація УПА" },
+            { name: "ОУН–Б", founded: 1929, leader: "Степан Бандера", ideology: "Радикальний національний патріотизм", period: "1929–н.ч.", significance: "Боротьба проти нацизму" },
+            { name: "ЛДПР", founded: 1990, leader: "Володимир Жириновський", ideology: "Ліберальна демократія", period: "1990–н.ч.", significance: "Суміш лібералізму і популізму" },
+            { name: "НПУ", founded: 1990, leader: "Юрій Костенко", ideology: "Національний консерватизм", period: "1990–н.ч.", significance: "Консервативна партія з екологією" },
+            { name: "УРП", founded: 1990, leader: "Сергій Гавриш", ideology: "Республіканізм, реформи", period: "1990–2001", significance: "Реформаторська партія" },
+            { name: "НДП", founded: 1991, leader: "Hennadiy Udovenko", ideology: "Демократизм, реформи", period: "1991–2005", significance: "Демократичні перетворення" },
+            { name: "Європейська Солідарність", founded: 2018, leader: "Петро Порошенко", ideology: "Центризм, проєвропейськість", period: "2018–н.ч.", significance: "Власна партія П. Порошенка" },
+            { name: "За майбутнє", founded: 2019, leader: "Валерій Залужний та інші", ideology: "Трансформація, безпека", period: "2019–н.ч.", significance: "Партія військовиків" },
+            { name: "Голос", founded: 2019, leader: "Святослав Вакарчук", ideology: "Музиканти, суспільні активісти", period: "2019–2022", significance: "Політична новизна" },
+            { name: "УКРОП", founded: 2012, leader: "Геннадій Корбан", ideology: "Український патріотизм", period: "2012–2019", significance: "Участь у Революції Гідності" },
+            { name: "Правий сектор", founded: 2013, leader: "Дмитро Ярош", ideology: "Радикальний национализм", period: "2013–н.ч.", significance: "Участь у збройному опорі" },
+            { name: "Слугти", founded: 2012, leader: "Ігор Смешко", ideology: "Національний консерватизм", period: "2012–2019", significance: "Стара назва УКРОП" },
+            { name: "Народний фронт", founded: 2014, leader: "Арсеній Яценюк", ideology: "Центризм, реформи", period: "2014–2019", significance: "Уряд Яценюка" },
+            { name: "Блок Петра Порошенка", founded: 2014, leader: "Петро Порошенко", ideology: "Центризм, проєвропейськість", period: "2014–2019", significance: "Партія президента" },
+            { name: "Радикальна партія", founded: 2004, leader: "Олег Ляшко", ideology: "Популізм, псевдорадикалізм", period: "2004–н.ч.", significance: "Популістичні обіцянки" },
+            { name: "ДА", founded: 2015, leader: "Геннадій Шурко", ideology: "Демократичні альянси", period: "2015–2019", significance: "Демократичні блоки" },
+            { name: "УКРОП (2012)", founded: 2012, leader: "Геннадій Корбан", ideology: "Український патріотизм", period: "2012–2019", significance: "Участь у революціях" },
+            { name: "Всі разом", founded: 2017, leader: "Ригалі Залужний", ideology: "Громадянське суспільство", period: "2017–2019", significance: "Громадянський рух" },
+            { name: "Сила та честь", founded: 2019, leader: "Ігор Смешко", ideology: "Національний консерватизм", period: "2019–н.ч.", significance: "Консервативна партія" },
+            { name: "Єдність", founded: 2014, leader: "Петро Порошенко", ideology: "Центризм", period: "2014–2019", significance: "Партія президента" },
+            { name: "Демократична Україна", founded: 1990, leader: "Василь Іванович", ideology: "Демократія, реформи", period: "1990–2000", significance: "Ранній демократичний рух" }
+        ];
+
+        // ============== КАРТКИ (50+) ==============
+        const flashcards = [
+            // Поняття
+            { front: "Голодомор", back: "1932–1933 рр. – штучно організований голод, розцінюється як геноцид (7–10 млн жертв)" },
+            { front: "Запорозька Січ", back: "Укріплена козацька спільнота в гирлі Дніпра, центр військової демократії (1556–1775)" },
+            { front: "Гетьманщина", back: "Суверенна козацька держава на українських землях з центром у Чигирині (1648–1775)" },
+            { front: "Панщина", back: "Повинність селян працювати на землі пана, феодальна експлуатація" },
+            { front: "Кріпацтво", back: "Юридична залежність селян від землевласника, форма рабства" },
+            { front: "Унія", back: "Династична угода про об'єднання двох держав під спільною владою" },
+            { front: "Магдебурзьке право", back: "Система міського самоврядування, запроваджена в Україні" },
+            { front: "Феодальна роздробленість", back: "Період політичної розрізненості Київської Русі після 1054 р." },
+            { front: "Руська Правда", back: "Перший давньоруський правовий кодекс, виданий Ярославом Мудрим" },
+            { front: "Трипільська культура", back: "Давня землеробська культура IV–III тисячоліття до н.e." },
+            { front: "Революція Гідності", back: "2013–2014 рр. – Євромайдан, протест проти авторитаризму" },
+            { front: "Помаранчева революція", back: "2004 р. – протести проти фальсифікації виборів, президент Ющенко" },
+            { front: "Реєстрові козаки", back: "Офіційно визнані козаки з привілеями, записані у реєстр" },
+            { front: "Голота", back: "Козаки без привілеїв і землі, рядовий вояцький люд" },
+            { front: "Хутір", back: "Приватне селище, володіння селянина або панів" },
+            { front: "Посадник", back: "Княжий намісник, чиновник у давньоруській державі" },
+            { front: "Боярин", back: "Вищий феодальний титул, член княжої ради в Русі" },
+            { front: "Дружина", back: "Озброєна дружина князя, основа військової сили" },
+            { front: "Вотчина", back: "Спадкова земельна власність, видана дворянину" },
+            { front: "Поместь", back: "Умовна земельна власність, дана за військову службу" },
+            
+            // Історичні особи
+            { front: "Тарас Шевченко", back: "Поет, письменник, художник (1814–1861), символ українськості" },
+            { front: "Богдан Хмельницький", back: "Гетьман (1595–1657), очільник Національно-визвольної війни 1648–1657" },
+            { front: "Володимир Великий", back: "Великий князь (980–1015), хреститель Русі в 988 р." },
+            { front: "Ярослав Мудрий", back: "Князь Київський (1019–1054), видавець Руської Правди" },
+            { front: "Данило Галицький", back: "Князь (1205–1264), перший король Русі, коронований Папою" },
+            { front: "Олег Віщий", back: "Засновник Київської Русі (862–912), об'єднав Новгород й Київ" },
+            { front: "Петро Сагайдачний", back: "Гетьман (1591–1622), борець за православ'я, похід на Константинопіль" },
+            { front: "Іван Мазепа", back: "Гетьман (1639–1709), розбудовував Гетьманщину, союзник Карла XII" },
+            { front: "Михайло Грушевський", back: "Історик, перший голова Центральної Ради (1917)" },
+            { front: "Симон Петлюра", back: "Діяч (1879–1926), головний отаман військ УНР" },
+            { front: "Володимир Мономах", back: "Князь Київський, автор Повчання дітям" },
+            { front: "Ольга (князиня)", back: "Княгиня, одна з перших християн на Русі" },
+            { front: "Святослав", back: "Великий воїн Київської Русі, завойовувач нових земель" },
+            { front: "Іван Богун", back: "Полковник часів Хмельницької війни, славився відвагою" },
+            { front: "Пилип Орлик", back: "Гетьман-в-екзилі, автор першої Конституції України 1710" },
+            { front: "Кирило Розумовський", back: "Останній гетьман Гетьманщини (1750–1764)" },
+            { front: "Хмельницький Юрій", back: "Син Богдана, гетьман 1657–1665" },
+            { front: "Іван Самойлович", back: "Гетьман 1671–1687, очолював козаків в період Руїни" },
+            { front: "Іван Виговський", back: "Гетьман 1657–1659, укладав угоди з поляка��и" },
+            { front: "Дмитро Вишневецький", back: "Байда, засновник Запорозької Січі 1556 р." },
+            
+            // События
+            { front: "Хрещення Русі", back: "988 р. – князь Володимир Великий прийняв християнство" },
+            { front: "Монгольська навала", back: "1240 р. – Батий розгромив Київ, татаро-монгольське ярмо" },
+            { front: "Коліївщина", back: "1768 р. – гайдамацьке повстання, опір полякам" },
+            { front: "Полтавська битва", back: "1709 р. – Петро I переміг Мазепу та шведів" },
+            { front: "Люблінська унія", back: "1569 р. – утворення Речі Посполитої, приєднання України" },
+            { front: "Переяславська рада", back: "1654 р. – козацька присяга московському царю" },
+            { front: "Андрусівське перемир'я", back: "1667 р. – визнання російського панування на лівобережній Україні" },
+            { front: "Третій розділ Польщі", back: "1795 р. – кінець Гетьманщини, поділ українських земель" },
+            { front: "Акт незалежності України", back: "24 серпня 1991 р. – проголошена незалежність України" },
+            { front: "Чорнобильська аварія", back: "26 квітня 1986 р. – найбільша ядерна катастрофа" },
+            { front: "Анек��ія Криму", back: "Березень 2014 р. – Росія анексувала Крим" },
+            { front: "Вибухнула Донецька війна", back: "Квітень 2014 р. – початок гібридної війни на Донбасі" },
+            { front: "Повномасштабна російська агресія", back: "24 лютого 2022 р. – вторгнення Росії в Україну" }
+        ];
+
+        // ============== ПИТАННЯ (60+) ==============
+        const allQuestions = [
+            // Період 1: Давня історія
+            { period: 1, question: "Яка культура розвивалася на території України IV–II тис. до н.e.?", options: ["Трипільська", "Мінойська", "Мікенська", "Хеттська"], correct: 0, explanation: "Трипільська культура – висока землеробська цивілізація з унікальною архітектурою." },
+            { period: 1, question: "Які племена населяли південні землі України у VII–III ст. до н.e.?", options: ["Готи", "Скіфи", "Аланів", "Авари"], correct: 1, explanation: "Скіфи – легендарний кочовий народ із хорошо розвинутою культурою." },
+            { period: 1, question: "Коли приблизно з'явилися люди сучасного типу на території України?", options: ["400 тис. років тому", "40 тис. років тому", "4 тис. років тому", "400 років тому"], correct: 1, explanation: "Кроманьйонці появилися близько 40 тисяч років тому." },
+            { period: 1, question: "Яким народом була заснована Ольвія?", options: ["Фінікійцями", "Греками", "Етрусками", "Персами"], correct: 1, explanation: "Ольвія – давньогрецька колонія у гирлі Дніпра." },
+            { period: 1, question: "Які причини спричинили занепад Скіфської держави?", options: ["Римське завоювання", "Навалу сарматів", "Грецька інвазія", "Внутрішні конфлікти"], correct: 1, explanation: "Сармати витиснили скіфів зі степів у II ст. до н.e." },
+            { period: 1, question: "Яка культура розвивалась у бронзову епоху?", options: ["Черняхівська", "Абашевська", "Трипільська", "Зарубинецька"], correct: 1, explanation: "Абашевська культура відома металургією й поховальною обрядовістю." },
+            { period: 1, question: "Коли закінчилась льодовикова доба на території України?", options: ["50 тис. років тому", "10 тис. років тому", "100 тис. років тому", "5 тис. років тому"], correct: 1, explanation: "Близько 10 тисяч років тому починається новий період." },
+            { period: 1, question: "Де розташовувалися головні поселення Трипільської культури?", options: ["На Західному Бугу", "По берегах Дніпра", "На території Молдавії", "У Криму"], correct: 1, explanation: "Трипільські поселення були розташовані по Дніпру й його притокам." },
+            { period: 1, question: "Яка технологія виробництва була характерна для Трипільської культури?", options: ["Полювання", "Вирощування зернових", "Рибальство", "Скотарство"], correct: 1, explanation: "Трипільці були землеробами, які вирощували ячмінь та пшеницю." },
+            { period: 1, question: "Як змінювався клімат від льодовикової епохи?", options: ["З теплого на холодний", "З холодного на теплий", "Залишався сталим", "Коливався постійно"], correct: 1, explanation: "Клімат змінювався з холодного на теплий, сприяючи розселенню." },
+
+            // Період 2: Київська Русь
+            { period: 2, question: "У якому році відбулося хрещення Русі?", options: ["1019 р.", "988 р.", "882 р.", "1036 р."], correct: 1, explanation: "988 р. – князь Володимир Великий хрестив Русь." },
+            { period: 2, question: "Хто був засновником Київської Русі?", options: ["Ігор", "Олег Віщий", "Святослав", "Ольга"], correct: 1, explanation: "Олег Віщий об'єднав Новгород й Київ у 882 р." },
+            { period: 2, question: "Хто був автором 'Повчання дітям'?", options: ["Ярослав Мудрий", "Володимир Мономах", "Олег Віщий", "Святослав"], correct: 1, explanation: "Володимир Мономах – князь Київський, автор відомого твору." },
+            { period: 2, question: "Коли почалась феодальна роздробленість?", options: ["1038 р.", "1054 р.", "1115 р.", "1185 р."], correct: 1, explanation: "1054 р. – після смерті Ярослава Мудрого почалась роздробленість." },
+            { period: 2, question: "Яку книгу видав Ярослав Мудрий?", options: ["Правда Ярослава", "Руська Правда", "Русько-варязька угода", "Княжий устав"], correct: 1, explanation: "Руська Правда – перший писаний закон Київської Русі." },
+            { period: 2, question: "Яка була столиця Київської Русі?", options: ["Новгород", "Київ", "Полоцьк", "Володимир"], correct: 1, explanation: "Київ став столицею після об'єднання Олегом." },
+            { period: 2, question: "Коли був похід Олега на Царгород?", options: ["912 р.", "907 р.", "965 р.", "1019 р."], correct: 1, explanation: "907 р. – Олег пішов на Константинопіль й укладив договір." },
+            { period: 2, question: "Хто була перша христеанка на Русі?", options: ["Ядвіга", "Ольга", "Ярославна", "Теодора"], correct: 1, explanation: "Ольга – княгиня Київська, одна з перших християн." },
+            { period: 2, question: "Яка релігія була офіційно прийнята Київською Руссю?", options: ["Католицизм", "Православне християнство", "Ісламізм", "Юдаїзм"], correct: 1, explanation: "Православне християнство мало великий культурний вплив." },
+            { period: 2, question: "Як називалась головна торговельна дорога?", options: ["Шовковий шлях", "З Варяг у Греки", "Беріингів міст", "Кримський шлях"], correct: 1, explanation: "'З Варяг у Греки' з'єднувала Балтику й Чорне море." },
+
+            // Період 3: Галицько-Волинське князівство
+            { period: 3, question: "Коли було засновано Галицько-Волинське князівство?", options: ["1240 р.", "1199 р.", "1340 р.", "1385 р."], correct: 1, explanation: "1199 р. – Роман Мстиславич об'єднав Галичину й Волинь." },
+            { period: 3, question: "Коли була коронація Данила Галицького?", options: ["1248 р.", "1253 р.", "1260 р.", "1270 р."], correct: 1, explanation: "1253 р. – Папа Інокентій IV коронував Данила королем." },
+            { period: 3, question: "Хто був засновником Галицько-Волинського князівства?", options: ["Данило Галицький", "Роман Мстиславич", "Василько Володимирич", "Ярослав Осмомисл"], correct: 1, explanation: "Роман Мстиславич – засновник держави у 1199 р." },
+            { period: 3, question: "Яке було головне місто?", options: ["Львів", "Галич", "Володимир", "Холм"], correct: 1, explanation: "Галич був головним містом й культурним центром." },
+            { period: 3, question: "Як Данило захищав землі від монголів?", options: ["Союзом з Литвою", "Союзом з Угорщиною й Польщею", "Союзом з Римом", "Союзом з Ордою"], correct: 1, explanation: "Данило укладав союзи з сусідніми європейськими державами." },
+            { period: 3, question: "Коли князівство було поглинуто Литвою?", options: ["XV ст.", "XIV ст.", "XIII ст.", "XVI ст."], correct: 1, explanation: "XIV ст. – князівство вже знаходилось під впливом Литви." },
+            { period: 3, question: "Яка роль мала Церква?", options: ["Тільки релігійна", "Політична й культурна", "Економічна", "Військова"], correct: 1, explanation: "Церква мала великий політичний й культурний вплив." },
+            { period: 3, question: "На яких землях розташовувалось княз івство?", options: ["Східних", "Західних", "Південних", "Північних"], correct: 1, explanation: "На західних українських землях – Галичина й Волинь." },
+            { period: 3, question: "Коли закінчилось князівство?", options: ["XV ст.", "XIV ст.", "XIII ст.", "XVI ст."], correct: 1, explanation: "XIV ст. – князівство було поглинуто Великим князівством Литовським." },
+            { period: 3, question: "Яка була культурна спадщина?", options: ["Тільки літопис", "Літопис й архітектура", "Тільки архітектура", "Тільки іконопис"], correct: 1, explanation: "Багата спадщина: літопис, архітектура, іконопис." },
+
+            // Період 4: Литовсько-польський період
+            { period: 4, question: "Люблінська унія приєднала Україну до якої держави?", options: ["Литви", "Речі Посполитої", "Австрії", "Москви"], correct: 1, explanation: "1569 р. – Люблінська унія утворила Річ Посполиту." },
+            { period: 4, question: "Коли була Городельська унія?", options: ["1385 р.", "1413 р.", "1492 р.", "1569 р."], correct: 1, explanation: "1413 р. – встановлена рівноправність шляхти." },
+            { period: 4, question: "Коли вперше згадуються козаки?", options: ["1556 р.", "1492 р.", "1520 р.", "1470 р."], correct: 1, explanation: "1492 р. – перша письмова згадка про козаків." },
+            { period: 4, question: "Яка была головна причина утворення Речі Посполитої?", options: ["Завоювання", "Союз проти Росії й Туреччини", "Турецька навала", "Крім завоювання"], correct: 1, explanation: "Союз для спільної безпеки й боротьби проти загроз." },
+            { period: 4, question: "Як поділялись земл і?", options: ["Південні за Польщею", "Західні за Польщею, східні за Литвою", "Все за Литвою", "Все за Польщею"], correct: 1, explanation: "Західні землі – Польща, східні – Великого князівства Литви." },
+            { period: 4, question: "Коли була Кревська унія?", options: ["1413 р.", "1385 р.", "1492 р.", "1569 р."], correct: 1, explanation: "1385 р. – об'єднала Литву й Польщу." },
+            { period: 4, question: "Яка роль козаків?", options: ["Купці", "Захисники кордонів", "Землероби", "Священнослужителі"], correct: 1, explanation: "Козаки були захисниками від татар й турків." },
+            { period: 4, question: "Яка система управління?", options: ["Централізована", "Воєводства під шляхтою", "Республіка", "Абсолютна монархія"], correct: 1, explanation: "Воєводства, керовані польською шляхтою." },
+            { period: 4, question: "Яка релігія переважала?", options: ["Православ'я", "Католицизм", "Ісламізм", "Юдаїзм"], correct: 1, explanation: "Католицизм став переважною релігією під Польщею." },
+            { period: 4, question: "Яка була економічна система?", options: ["Капіталізм", "Феодальна панщина", "Комунізм", "Рабовладіння"], correct: 1, explanation: "Феодальна панщина – основа економіки." },
+
+            // Період 5: Козацька доба
+            { period: 5, question: "Яке число заснування Запорозької Січі?", options: ["1556 р.", "1548 р.", "1572 р.", "1540 р."], correct: 0, explanation: "1556 р. – Дмитро Вишневецький засновує Січ." },
+            { period: 5, question: "Яка була головна організація?", options: ["Палатка", "Рада (Коло)", "Станиця", "Полк"], correct: 1, explanation: "Рада – вищий орган влади, колективна демократія." },
+            { period: 5, question: "Хто був першим гетьманом?", options: ["Хмельницький", "Вишневецький", "Сагайдачний", "Сірко"], correct: 1, explanation: "Дмитро Вишневецький (Байда) – засновник Січі." },
+            { period: 5, question: "Яка найбільша битва?", options: ["Під Корсунем", "Під Батогом", "Під Замостям", "На річці Синюхе"], correct: 2, explanation: "Битва під Замостям 1648 р. – велика перемога козаків." },
+            { period: 5, question: "Коли закінчилась Запорозька Січ?", options: ["1709 р.", "1775 р.", "1800 р.", "1812 р."], correct: 1, explanation: "1775 р. – ліквідована російськими військами Потьомкіна." },
+            { period: 5, question: "Як називався період конфліктів?", options: ["Золоте століття", "Руїна", "Чорне урочисто", "Період феодалізму"], correct: 1, explanation: "Руїна (1657–1686) – період внутрішніх воєнних конфліктів." },
+            { period: 5, question: "Скільки козаків було у Січі?", options: ["5 000", "10 000", "20–50 тисяч", "100 000"], correct: 2, explanation: "У розквіті Січ мала 20–50 тисяч козаків." },
+            { period: 5, question: "Як розподілялась здобич?", options: ["Все гетьманові", "Порівну", "1/3 гетьманові, решта всім", "Залежить від рангу"], correct: 2, explanation: "Звичайний розподіл: 1/3 гетьманові, 2/3 для всіх." },
+            { period: 5, question: "Яка роль голоти?", options: ["Керували державою", "Рядові вояки без привілеїв", "Служили тільки полководцям", "Не було такого класу"], correct: 1, explanation: "Голота – рядові козаки без землі й привілеїв." },
+            { period: 5, question: "Коли була Хмельницька війна?", options: ["1640–1650", "1648–1657", "1660–1670", "1680–1690"], correct: 1, explanation: "1648–1657 рр. – Національно-визвольна війна під Хмельницьким." },
+
+            // Період 6: Російська imperio
+            { period: 6, question: "Коли скасоване кріпацтво?", options: ["1830 р.", "1861 р.", "1890 р.", "1905 р."], correct: 1, explanation: "1861 р. – Олександр II скасував селищну залежність." },
+            { period: 6, question: "Коли закінчилась незалежність Гетьманщини?", options: ["1764 р.", "1775 р.", "1791 р.", "1800 р."], correct: 0, explanation: "1764 р. – ліквідована посада гетьмана." },
+            { period: 6, question: "Яка була головна економічна система?", options: ["Вільні громади", "Приватна власність", "Кріпацтво", "Комунальні господарства"], correct: 2, explanation: "Кріпацтво розширилось і тривало до 1861 р." },
+            { period: 6, question: "Як змінювалась роль України?", options: ["Набирала влади", "Втрачала самостійність", "Залишалась незмінною", "Стала незалежною"], correct: 1, explanation: "Україна поступово втрачала політичну й культурну автономію." },
+            { period: 6, question: "Яка було головна мета експансії?", options: ["Релігійна", "Геополітична – контроль Чорного моря", "Торговельна", "Захист козаків"], correct: 1, explanation: "Боротьба з Туреччиною за контроль морів й портів." },
+            { period: 6, question: "Як розвивалась промисловість?", options: ["Не розвивалась", "Крайне повільно", "Активно у XIX ст.", "Була заборонена"], correct: 2, explanation: "XIX ст. – особливо друга половина – активний розвиток." },
+            { period: 6, question: "Як змінювалась система освіти?", options: ["Залишалась незмінною", "Була заборонена", "Русифікована", "Розвивалась вільно"], correct: 2, explanation: "Російська влада русифікувала освіту й мову." },
+            { period: 6, question: "Як розвивалось робітничий рух?", options: ["Не було", "Слабко", "Активно у кінці XIX ст.", "Був заборонений"], correct: 2, explanation: "Активно у 1890-х–1900-х рр., особливо на Донбасі." },
+            { period: 6, question: "Коли отримала Україна автономність?", options: ["1900 р.", "1905 р.", "1914 р.", "Ніколи не отримала"], correct: 3, explanation: "Україна не мала офіційної автономності в imperio." },
+            { period: 6, question: "Як розвивалась інфраструктура?", options: ["Не розвивалась", "Повільно", "Активно – залізниці, пошта, телеграф", "Була заборонена"], correct: 2, explanation: "Активний розвиток інфраструктури для контролю." },
+
+            // Період 7: XX–XXI ст.
+            { period: 7, question: "Коли була проголошена незалежність України?", options: ["1989 р.", "1990 р.", "1991 р.", "1992 р."], correct: 2, explanation: "24 серпня 1991 р. – проголошена незалежність." },
+            { period: 7, question: "Яка була тривалість українсько-польської війни?", options: ["1919–1920", "1920–1921", "1921–1922", "1918–1919"], correct: 0, explanation: "1919–1920 рр. – конфлікт за території." },
+            { period: 7, question: "Коли вибухнув Голодомор?", options: ["1930–1931", "1932–1933", "1934–1935", "1936–1937"], correct: 1, explanation: "1932–1933 рр. – штучно організований голод." },
+            { period: 7, question: "Скільки людей загинуло в Голодоморі?", options: ["1 млн", "3–5 млн", "7–10 млн", "15 млн"], correct: 2, explanation: "7–10 млн українців – одна з найбільших трагедій." },
+            { period: 7, question: "Коли почалась Друга світова для СРСР?", options: ["1939 р.", "1940 р.", "1941 р.", "1942 р."], correct: 2, explanation: "22 червня 1941 р. – операція 'Барбаросса'." },
+            { period: 7, question: "Коли була Чорнобильська аварія?", options: ["1984 р.", "1985 р.", "1986 р.", "1987 р."], correct: 2, explanation: "26 квітня 1986 р. – найбільша ядерна катастрофа." },
+            { period: 7, question: "Коли була Помаранчева революція?", options: ["2002 р.", "2003 р.", "2004 р.", "2005 р."], correct: 2, explanation: "2004 р. – протести проти фальсифікації виборів." },
+            { period: 7, question: "Коли була анексія Криму?", options: ["2012 р.", "2013 р.", "2014 р.", "2015 р."], correct: 2, explanation: "Березень 2014 р. – Росія анексувала Крим." },
+            { period: 7, question: "Коли розпочалась війна на Донбасі?", options: ["2013 р.", "2014 р.", "2015 р.", "2016 р."], correct: 1, explanation: "Квітень 2014 р. – початок гібридної війни." },
+            { period: 7, question: "Коли розпочалась повномасштабна російська агресія?", options: ["2021 р.", "2022 р.", "2023 р.", "2024 р."], correct: 1, explanation: "24 лютого 2022 р. – повномасштабне вторгнення Росії." }
+        ];
+
+        const periodNames = ["Усі періоди", "Давня історія", "Київська Русь", "Галицько-Волинське князівство", "Литовсько-польський період", "Козацька доба", "Російська imperio", "XX–XXI ст."];
+
+        let currentTestQuestion = 0;
+        let testScore = 0;
+        let selectedPeriod = 0;
+        let currentQuestions = [];
+        let userProgress = JSON.parse(localStorage.getItem('nmtProgress')) || { testsCompleted: 0, correctAnswers: 0, bestScore: 0 };
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateStats();
+            renderHetmans();
+            renderTreaties();
+            renderParties();
+            renderFlashcards();
+        });
+
+        function switchSection(section) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(section).classList.add('active');
+            document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            if (section === 'test') {
+                renderPeriodFilter();
+                selectPeriod(0);
+            }
+            window.scrollTo(0, 0);
+        }
+
+        function renderHetmans(filtered = null) {
+            const content = document.getElementById('hetmansContent');
+            const toRender = filtered || hetmans;
+            content.innerHTML = toRender.map(h => `
+                <div class="content-card">
+                    <h3>${h.name}</h3>
+                    <p><strong>Роки:</strong> ${h.years}</p>
+                    <p><strong>Період:</strong> ${h.period}</p>
+                    <p><strong>Досягнення:</strong> ${h.achievements}</p>
+                    <p><strong>Смерть:</strong> ${h.death}</p>
+                </div>
+            `).join('');
+        }
+
+        function filterHetmans() {
+            const query = document.getElementById('hetmanSearch').value.toLowerCase();
+            if (!query) { renderHetmans(); return; }
+            const filtered = hetmans.filter(h => h.name.toLowerCase().includes(query) || h.achievements.toLowerCase().includes(query));
+            renderHetmans(filtered);
+        }
+
+        function renderTreaties(filtered = null) {
+            const content = document.getElementById('treatiesContent');
+            const toRender = filtered || treaties;
+            content.innerHTML = toRender.map(t => `
+                <div class="content-card">
+                    <h3>${t.name} (${t.year})</h3>
+                    <p><strong>Учасники:</strong> ${t.parties}</p>
+                    <p><strong>Опис:</strong> ${t.description}</p>
+                    <p><strong>Значення:</strong> ${t.significance}</p>
+                </div>
+            `).join('');
+        }
+
+        function filterTreaties() {
+            const query = document.getElementById('treatySearch').value.toLowerCase();
+            if (!query) { renderTreaties(); return; }
+            const filtered = treaties.filter(t => t.name.toLowerCase().includes(query) || t.description.toLowerCase().includes(query));
+            renderTreaties(filtered);
+        }
+
+        function renderParties(filtered = null) {
+            const content = document.getElementById('partiesContent');
+            const toRender = filtered || parties;
+            content.innerHTML = toRender.map(p => `
+                <div class="content-card">
+                    <h3>${p.name}</h3>
+                    <p><strong>Засновано:</strong> ${p.founded}</p>
+                    <p><strong>Лідер:</strong> ${p.leader}</p>
+                    <p><strong>Ідеологія:</strong> ${p.ideology}</p>
+                    <p><strong>Період:</strong> ${p.period}</p>
+                    <p><strong>Значення:</strong> ${p.significance}</p>
+                </div>
+            `).join('');
+        }
+
+        function filterParties() {
+            const query = document.getElementById('partySearch').value.toLowerCase();
+            if (!query) { renderParties(); return; }
+            const filtered = parties.filter(p => p.name.toLowerCase().includes(query) || p.ideology.toLowerCase().includes(query));
+            renderParties(filtered);
+        }
+
+        function renderFlashcards() {
+            const grid = document.getElementById('flashcardsGrid');
+            grid.innerHTML = flashcards.map((card, idx) => `
+                <div class="flashcard" onclick="this.classList.toggle('flipped')">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">${card.front}</div>
+                        <div class="flashcard-back">${card.back}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderPeriodFilter() {
+            const filter = document.getElementById('periodFilter');
+            filter.innerHTML = periodNames.map((name, idx) => `
+                <button class="period-btn ${idx === 0 ? 'active' : ''}" onclick="selectPeriod(${idx})">${name}</button>
+            `).join('');
+        }
+
+        function selectPeriod(periodId) {
+            selectedPeriod = periodId;
+            currentTestQuestion = 0;
+            testScore = 0;
+            document.querySelectorAll('.period-btn').forEach((btn, idx) => {
+                btn.classList.toggle('active', idx === periodId);
+            });
+            getFilteredQuestions();
+            renderTest();
+        }
+
+        function getFilteredQuestions() {
+            let filtered = selectedPeriod === 0 ? allQuestions : allQuestions.filter(q => q.period === selectedPeriod);
+            currentQuestions = filtered.map(q => {
+                const prepared = {...q};
+                const correctAnswer = prepared.options[prepared.correct];
+                prepared.options = shuffleArray(prepared.options);
+                prepared.correct = prepared.options.indexOf(correctAnswer);
+                return prepared;
+            });
+        }
+
+        function renderTest() {
+            if (currentQuestions.length === 0) return;
+            const q = currentQuestions[currentTestQuestion];
+            const testContent = document.getElementById('testContent');
+            testContent.innerHTML = `
+                <div class="question-card">
+                    <div class="question-number">Питання ${currentTestQuestion + 1} з ${currentQuestions.length}</div>
+                    <div class="question-text">${q.question}</div>
+                    <ul class="options-list">
+                        ${q.options.map((opt, i) => `<li class="option" onclick="selectOption(${i})">${opt}</li>`).join('')}
+                    </ul>
+                    <div class="explanation" id="explanation"><strong>Пояснення:</strong><br>${q.explanation}</div>
+                </div>
+            `;
+            document.getElementById('questionCounter').textContent = `${currentTestQuestion + 1} / ${currentQuestions.length}`;
+        }
+
+        function selectOption(index) {
+            const q = currentQuestions[currentTestQuestion];
+            const options = document.querySelectorAll('.option');
+            options.forEach((opt, i) => {
+                opt.classList.remove('selected', 'correct', 'wrong');
+                if (i === index) {
+                    opt.classList.add('selected');
+                    if (i === q.correct) opt.classList.add('correct');
+                    else opt.classList.add('wrong');
+                }
+                if (i === q.correct && i !== index) opt.classList.add('correct');
+                opt.onclick = null;
+            });
+            document.getElementById('explanation').classList.add('show');
+            if (index === q.correct) testScore++;
+        }
+
+        function nextQuestion() {
+            if (currentTestQuestion < currentQuestions.length - 1) {
+                currentTestQuestion++;
+                renderTest();
+            } else {
+                finishTest();
+            }
+        }
+
+        function prevQuestion() {
+            if (currentTestQuestion > 0) {
+                currentTestQuestion--;
+                renderTest();
+            }
+        }
+
+        function finishTest() {
+            const percentage = Math.round((testScore / currentQuestions.length) * 100);
+            const testContent = document.getElementById('testContent');
+            testContent.innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div style="font-size: 4rem; margin-bottom: 20px;">${percentage >= 80 ? '🎉' : percentage >= 60 ? '👍' : '📚'}</div>
+                    <h2 style="margin-bottom: 20px;">Тест завершено!</h2>
+                    <p style="font-size: 1.3rem; margin-bottom: 30px;">
+                        Результат: <strong style="color: var(--primary-blue);">${testScore} з ${currentQuestions.length}</strong> (${percentage}%)
+                    </p>
+                    <button class="btn btn-primary" onclick="restartTest()" style="padding: 15px 40px;">Пройти ще раз</button>
+                </div>
+            `;
+            userProgress.testsCompleted++;
+            userProgress.correctAnswers += testScore;
+            userProgress.bestScore = Math.max(userProgress.bestScore, percentage);
+            saveProgress();
+            updateStats();
+        }
+
+        function restartTest() {
+            currentTestQuestion = 0;
+            testScore = 0;
+            selectPeriod(selectedPeriod);
+        }
+
+        function updateStats() {
+            document.getElementById('testsCompleted').textContent = userProgress.testsCompleted;
+            document.getElementById('correctAnswers').textContent = userProgress.correctAnswers;
+            document.getElementById('bestScore').textContent = userProgress.bestScore + '%';
+        }
+
+        function saveProgress() {
+            localStorage.setItem('nmtProgress', JSON.stringify(userProgress));
+        }
+    </script>
+</body>
+</html>
